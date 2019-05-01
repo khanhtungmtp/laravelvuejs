@@ -18,3 +18,6 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+// regular expression đường dẫn ảo của vue thành thật
+Route::get('{path}','HomeController@index')->where('path','([A-z\d\-v\/_.]+)?');
