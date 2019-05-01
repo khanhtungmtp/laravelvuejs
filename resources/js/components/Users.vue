@@ -7,7 +7,8 @@
                         <h3 class="card-title">Users</h3>
 
                         <div class="card-tools">
-                            <button class="btn btn-success" data-toggle="modal" data-target="#addNew">Add new <i class="fas fa-user-plus fa-fw"></i></button>
+                            <button class="btn btn-success" data-toggle="modal" data-target="#addNew">Add new <i
+                                    class="fas fa-user-plus fa-fw"></i></button>
                         </div>
                     </div>
                     <!-- /.card-header -->
@@ -47,7 +48,8 @@
         </div>
 
         <!-- Modal -->
-        <div class="modal fade" id="addNew" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="addNew" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -57,7 +59,17 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        ...
+                        <div class="form-group">
+
+                            <input
+                                    v-model="form.name"
+                                    type="text" name="name"
+                                    class="form-control"
+                                    :class="{ 'is-invalid': form.errors.has('name') }"
+                                    placeholder="name"
+                            >
+                            <has-error :form="form" field="name"></has-error>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
@@ -70,5 +82,18 @@
 </template>
 
 <script>
-    export default {}
+    export default {
+        data() {
+            return {
+                form: new Form({
+                    name: '',
+                    email: '',
+                    password: '',
+                    bio: '',
+                    type: '',
+                    photo: ''
+                })
+            }
+        }
+    }
 </script>
