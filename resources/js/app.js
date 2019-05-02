@@ -18,7 +18,12 @@ Vue.component(HasError.name, HasError);
 Vue.component(AlertError.name, AlertError);
 
 import VueRouter from 'vue-router'
+
 import VueProgressBar from 'vue-progressbar'
+
+import swal from 'sweetalert2'
+window.swal= swal;
+
 const options = {
     color: '#bffaf3',
     failedColor: '#874b4b',
@@ -32,6 +37,14 @@ const options = {
     location: 'top',
     inverse: false
 };
+
+const toast = swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 3000
+});
+window.toast= toast;
 
 Vue.use(VueProgressBar, options)
 
@@ -50,6 +63,7 @@ const routes = [
     { path: '/profile',   component: require('./components/Profile.vue').default },
     { path: '/users',     component: require('./components/Users.vue').default }
 ];
+
 
 const router = new VueRouter({
     mode: 'history',

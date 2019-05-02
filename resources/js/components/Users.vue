@@ -157,13 +157,26 @@
             },
             createUser() {
                 // route api resource default
+                /*
+                  bước 1 hiện thanh progress
+                  bước 2 bắt đầu post dữ liệu
+                  bước 3 hoàn thành thì hiện thông báo toast
+                  bước 4 ẩn form
+                  bước 5 hoàn thành progress
+                */
                 this.$Progress.start();
-                this.form.post('api/user') .then(
-                    ({ data }) => {
-                        console.log(data);
-                        this.$Progress.finish();
-                    }
-                )
+
+                this.form.post('api/user');
+
+                toast.fire({
+                  type: 'success',
+                  title: 'User created in successfully'
+                })
+
+                $('#addNew').modal('hide')
+
+                  this.$Progress.finish();
+                    
             }
         },
         created() {
