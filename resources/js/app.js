@@ -13,6 +13,8 @@ import { Form, HasError, AlertError } from 'vform';
 import moment from 'moment';
 
 window.Form = Form;
+// tạo xe bus phát hiện thay đổi all user trong database 
+window.EventBus = new Vue();
 
 Vue.component(HasError.name, HasError);
 Vue.component(AlertError.name, AlertError);

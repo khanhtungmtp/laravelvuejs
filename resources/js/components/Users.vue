@@ -166,8 +166,11 @@
                 */
                 this.$Progress.start();
 
-                this.form.post('api/user');
-
+                this.form.post('api/user')
+                .then(()=>{
+                // sau khi post lên server thì gửi thông báo đến hook created 
+                // để phát hiện thay đổi trên server
+                EventBus.$emit('AfterCreatedUser');
                 toast.fire({
                   type: 'success',
                   title: 'User created in successfully'
@@ -175,13 +178,23 @@
 
                 $('#addNew').modal('hide')
 
-                  this.$Progress.finish();
+                this.$Progress.finish();
+                })
+                .catch((errors)=>{
+                    console.log(errors);
+                });
+
+                
                     
             }
         },
         created() {
 
             this.loadUsers();
+            // nhận thông báo thay đổi dữ liệu từ methods createUser
+            EventBus.$on('AfterCreatedUser',()=>{
+                this.loadUsers();
+            });
 
         }
     }

@@ -2033,6 +2033,8 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     createUser: function createUser() {
+      var _this2 = this;
+
       // route api resource default
 
       /*
@@ -2043,17 +2045,30 @@ __webpack_require__.r(__webpack_exports__);
         bước 5 hoàn thành progress
       */
       this.$Progress.start();
-      this.form.post('api/user');
-      toast.fire({
-        type: 'success',
-        title: 'User created in successfully'
+      this.form.post('api/user').then(function () {
+        // sau khi post lên server thì gửi thông báo đến hook created 
+        // để phát hiện thay đổi trên server
+        EventBus.$emit('AfterCreatedUser');
+        toast.fire({
+          type: 'success',
+          title: 'User created in successfully'
+        });
+        $('#addNew').modal('hide');
+
+        _this2.$Progress.finish();
+      })["catch"](function (errors) {
+        console.log(errors);
       });
-      $('#addNew').modal('hide');
-      this.$Progress.finish();
     }
   },
   created: function created() {
-    this.loadUsers();
+    var _this3 = this;
+
+    this.loadUsers(); // nhận thông báo thay đổi dữ liệu từ methods createUser
+
+    EventBus.$on('AfterCreatedUser', function () {
+      _this3.loadUsers();
+    });
   }
 });
 
@@ -74113,7 +74128,9 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 
 
-window.Form = vform__WEBPACK_IMPORTED_MODULE_0__["Form"];
+window.Form = vform__WEBPACK_IMPORTED_MODULE_0__["Form"]; // tạo xe bus phát hiện thay đổi all user trong database 
+
+window.EventBus = new Vue();
 Vue.component(vform__WEBPACK_IMPORTED_MODULE_0__["HasError"].name, vform__WEBPACK_IMPORTED_MODULE_0__["HasError"]);
 Vue.component(vform__WEBPACK_IMPORTED_MODULE_0__["AlertError"].name, vform__WEBPACK_IMPORTED_MODULE_0__["AlertError"]);
 
