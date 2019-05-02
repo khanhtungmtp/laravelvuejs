@@ -157,11 +157,19 @@
             },
             createUser() {
                 // route api resource default
-                this.form.post('api/user')
+                this.$Progress.start();
+                this.form.post('api/user') .then(
+                    ({ data }) => {
+                        console.log(data);
+                        this.$Progress.finish();
+                    }
+                )
             }
         },
         created() {
+
             this.loadUsers();
+
         }
     }
 </script>
