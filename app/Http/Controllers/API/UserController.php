@@ -16,7 +16,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        // get user giá trị về
+        return User::latest()->paginate(10);
     }
 
     /**
