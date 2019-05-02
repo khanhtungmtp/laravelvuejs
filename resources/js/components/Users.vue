@@ -28,8 +28,8 @@
                                 <td>{{ user.id }}</td>
                                 <td>{{ user.name }}</td>
                                 <td>{{ user.email }}</td>
-                                <td>{{ user.type }}</td>
-                                <td>{{ user.created_at }}</td>
+                                <td>{{ user.type | textUppercase }}</td>
+                                <td>{{ user.created_at | carbonDate }}</td>
                                 <td>
                                     <a href="#">
                                         <i class="fa fa-edit blue"></i>

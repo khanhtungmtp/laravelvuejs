@@ -8,26 +8,35 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
-import { Form, HasError, AlertError } from 'vform'
+import { Form, HasError, AlertError } from 'vform';
+import moment from 'moment';
 window.Form = Form;
 
-Vue.component(HasError.name, HasError)
-Vue.component(AlertError.name, AlertError)
+Vue.component(HasError.name, HasError);
+Vue.component(AlertError.name, AlertError);
 
 import VueRouter from 'vue-router'
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
+Vue.filter('textUppercase',function(text){
+    // viết hoa chữ cái đầu tiên
+    return text.charAt(0).toUpperCase(0) + text.slice(1);
+});
+
+Vue.filter('carbonDate',function (created_at) {
+    return moment(created_at).startOf('hour').fromNow();
+})
 const routes = [
     { path: '/dashboard', component: require('./components/Dashboard.vue').default },
     { path: '/profile',   component: require('./components/Profile.vue').default },
     { path: '/users',     component: require('./components/Users.vue').default }
-]
+];
 
 const router = new VueRouter({
     mode: 'history',
     routes // short for `routes: routes`
-})
+});
 
 /**
  * The following block of code may be used to automatically register your
