@@ -35,7 +35,7 @@
                                         <i class="fa fa-edit blue"></i>
                                     </a>
                                     |
-                                    <a href="#">
+                                    <a href="#" @click="deleteUser(user.id)">
                                         <i class="fa fa-trash red"></i>
                                     </a>
                                 </td>
@@ -165,7 +165,6 @@
                   bước 5 hoàn thành progress
                 */
                 this.$Progress.start();
-
                 this.form.post('api/user')
                 .then(()=>{
                 // sau khi post lên server thì gửi thông báo đến hook created 
@@ -181,13 +180,46 @@
                 this.$Progress.finish();
                 })
                 .catch((errors)=>{
-                    console.log(errors);
-                });
-
-                
+                  this.$Progress.fail();
+                  //console.log(errors);
+                });      
                     
+            },
+            deleteUser(id){
+              swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+              }).then((result) => {
+                if (result.value) {
+                  // gửi request yêu cầu xóa user
+                  this.form.delete('/api/user/'+ id)
+                  .then(()=>{
+                      swal.fire(
+                        'Deleted!',
+                        'Your file has been deleted.',
+                        'success'
+                      )
+                      // gửi thông báo cho server biết user đã bị xóa
+                      EventBus.$emit('AfterCreatedUser');
+                  })
+                  .catch(()=>{
+                    swal(
+                      'Failed!',
+                      'There are something wrong.',
+                      'Warning'
+                    )
+                  })
+                }
+                
+              })
             }
         },
+        // hook
         created() {
 
             this.loadUsers();

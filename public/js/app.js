@@ -2057,17 +2057,43 @@ __webpack_require__.r(__webpack_exports__);
 
         _this2.$Progress.finish();
       })["catch"](function (errors) {
-        console.log(errors);
+        _this2.$Progress.fail(); //console.log(errors);
+
+      });
+    },
+    deleteUser: function deleteUser(id) {
+      var _this3 = this;
+
+      swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then(function (result) {
+        if (result.value) {
+          // gửi request yêu cầu xóa user
+          _this3.form["delete"]('/api/user/' + id).then(function () {
+            swal.fire('Deleted!', 'Your file has been deleted.', 'success'); // gửi thông báo cho server biết user đã bị xóa
+
+            EventBus.$emit('AfterCreatedUser');
+          })["catch"](function () {
+            swal('Failed!', 'There are something wrong.', 'Warning');
+          });
+        }
       });
     }
   },
+  // hook
   created: function created() {
-    var _this3 = this;
+    var _this4 = this;
 
     this.loadUsers(); // nhận thông báo thay đổi dữ liệu từ methods createUser
 
     EventBus.$on('AfterCreatedUser', function () {
-      _this3.loadUsers();
+      _this4.loadUsers();
     });
   }
 });
@@ -58875,7 +58901,24 @@ var render = function() {
                         _vm._v(_vm._s(_vm._f("carbonDate")(user.created_at)))
                       ]),
                       _vm._v(" "),
-                      _vm._m(2, true)
+                      _c("td", [
+                        _vm._m(2, true),
+                        _vm._v(
+                          "\n                                |\n                                "
+                        ),
+                        _c(
+                          "a",
+                          {
+                            attrs: { href: "#" },
+                            on: {
+                              click: function($event) {
+                                return _vm.deleteUser(user.id)
+                              }
+                            }
+                          },
+                          [_c("i", { staticClass: "fa fa-trash red" })]
+                        )
+                      ])
                     ])
                   })
                 ],
@@ -59203,16 +59246,8 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("td", [
-      _c("a", { attrs: { href: "#" } }, [
-        _c("i", { staticClass: "fa fa-edit blue" })
-      ]),
-      _vm._v(
-        "\n                                |\n                                "
-      ),
-      _c("a", { attrs: { href: "#" } }, [
-        _c("i", { staticClass: "fa fa-trash red" })
-      ])
+    return _c("a", { attrs: { href: "#" } }, [
+      _c("i", { staticClass: "fa fa-edit blue" })
     ])
   },
   function() {
