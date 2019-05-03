@@ -9,20 +9,20 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
-import { Form, HasError, AlertError } from 'vform';
+// thư viện thời gian
 import moment from 'moment';
-
+// thư viện vform cho vuejs đẹp
+import { Form, HasError, AlertError } from 'vform';
 window.Form = Form;
-// tạo xe bus phát hiện thay đổi all user trong database 
-window.EventBus = new Vue();
 
 Vue.component(HasError.name, HasError);
 Vue.component(AlertError.name, AlertError);
 
 import VueRouter from 'vue-router'
-
+// thư viện thanh trạng thái
 import VueProgressBar from 'vue-progressbar'
 
+// thư viện hiện thông báo cảnh báo khi xóa
 import swal from 'sweetalert2'
 window.swal= swal;
 
@@ -52,6 +52,7 @@ Vue.use(VueProgressBar, options)
 
 Vue.use(VueRouter);
 
+// tạo filter , giống define trong php
 Vue.filter('textUppercase',function(text){
     // viết hoa chữ cái đầu tiên
     return text.charAt(0).toUpperCase(0) + text.slice(1);
@@ -60,12 +61,16 @@ Vue.filter('textUppercase',function(text){
 Vue.filter('carbonDate',function (created_at) {
     return moment(created_at).startOf('hour').fromNow();
 })
+
 const routes = [
     { path: '/dashboard', component: require('./components/Dashboard.vue').default },
     { path: '/profile',   component: require('./components/Profile.vue').default },
+    { path: '/developer',   component: require('./components/Developer.vue').default },
     { path: '/users',     component: require('./components/Users.vue').default }
 ];
 
+// tạo xe bus phát hiện thay đổi all user trong database
+window.EventBus = new Vue();
 
 const router = new VueRouter({
     mode: 'history',
@@ -79,6 +84,21 @@ const router = new VueRouter({
  *
  * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
  */
+
+Vue.component(
+    'passport-clients',
+    require('./components/passport/Clients.vue').default
+);
+
+Vue.component(
+    'passport-authorized-clients',
+    require('./components/passport/AuthorizedClients.vue').default
+);
+
+Vue.component(
+    'passport-personal-access-tokens',
+    require('./components/passport/PersonalAccessTokens.vue').default
+);
 
 // const files = require.context('./', true, /\.vue$/i);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));

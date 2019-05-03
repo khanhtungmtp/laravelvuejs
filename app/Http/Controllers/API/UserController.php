@@ -10,6 +10,16 @@ use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {
     /**
+     * bảo vệ api , phải đăng nhập mới được lấy
+     *
+     *
+     */
+    public function __construct()
+    {
+        $this->middleware('api');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
