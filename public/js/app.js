@@ -2016,6 +2016,7 @@ __webpack_require__.r(__webpack_exports__);
       editForm: false,
       users: {},
       form: new Form({
+        id: '',
         name: '',
         email: '',
         password: '',
@@ -2070,16 +2071,30 @@ __webpack_require__.r(__webpack_exports__);
         $('#addNew').modal('hide');
 
         _this2.$Progress.finish();
-      })["catch"](function (errors) {
+      })["catch"](function () {
         _this2.$Progress.fail(); //console.log(errors);
 
       });
     },
     updateUser: function updateUser(id) {
-      console.log('editting');
+      var _this3 = this;
+
+      this.$Progress.start();
+      this.form.put('api/user/' + this.form.id).then(function () {
+        EventBus.$emit('AfterCreatedUser');
+        toast.fire({
+          type: 'success',
+          title: 'User updated in successfully'
+        });
+        $('#addNew').modal('hide');
+
+        _this3.$Progress.finish();
+      })["catch"](function () {
+        _this3.$Progress.fail();
+      });
     },
     deleteUser: function deleteUser(id) {
-      var _this3 = this;
+      var _this4 = this;
 
       swal.fire({
         title: 'Are you sure?',
@@ -2092,7 +2107,7 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (result) {
         if (result.value) {
           // gửi request yêu cầu xóa user
-          _this3.form["delete"]('/api/user/' + id).then(function () {
+          _this4.form["delete"]('/api/user/' + id).then(function () {
             swal.fire('Deleted!', 'Your file has been deleted.', 'success'); // gửi thông báo cho server biết user đã bị xóa
 
             EventBus.$emit('AfterCreatedUser');
@@ -2105,12 +2120,12 @@ __webpack_require__.r(__webpack_exports__);
   },
   // hook
   created: function created() {
-    var _this4 = this;
+    var _this5 = this;
 
     this.loadUsers(); // nhận thông báo thay đổi dữ liệu từ methods createUser
 
     EventBus.$on('AfterCreatedUser', function () {
-      _this4.loadUsers();
+      _this5.loadUsers();
     });
   }
 });

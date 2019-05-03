@@ -144,6 +144,7 @@
                 editForm:false,
                 users: {},
                 form: new Form({
+                    id: '',
                     name: '',
                     email: '',
                     password: '',
@@ -189,18 +190,33 @@
                   title: 'User created in successfully'
                 })
 
-                $('#addNew').modal('hide')
+                $('#addNew').modal('hide');
 
                 this.$Progress.finish();
                 })
-                .catch((errors)=>{
+                .catch( ()=>{
                   this.$Progress.fail();
                   //console.log(errors);
                 });      
                     
             },
             updateUser(id){
-              console.log('editting');
+              this.$Progress.start();
+
+              this.form.put('api/user/' + this.form.id)
+              .then(() => {
+                EventBus.$emit('AfterCreatedUser');
+
+                toast.fire({
+                  type: 'success',
+                  title: 'User updated in successfully'
+                });
+                $('#addNew').modal('hide')
+                this.$Progress.finish();
+              })
+              .catch( () => {
+                this.$Progress.fail();
+              });
             },
             deleteUser(id){
               swal.fire({
