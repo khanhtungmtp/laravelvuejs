@@ -7,7 +7,7 @@
                         <h3 class="card-title">Users</h3>
 
                         <div class="card-tools">
-                            <button class="btn btn-success" data-toggle="modal" data-target="#addNew">Add new <i
+                            <button class="btn btn-success" @click="newModal">Add new <i
                                     class="fas fa-user-plus fa-fw"></i></button>
                         </div>
                     </div>
@@ -31,7 +31,7 @@
                                 <td>{{ user.type | textUppercase }}</td>
                                 <td>{{ user.created_at | carbonDate }}</td>
                                 <td>
-                                    <a href="#">
+                                    <a href="#" @click="editModal(user)">
                                         <i class="fa fa-edit blue"></i>
                                     </a>
                                     |
@@ -56,13 +56,14 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Add New</h5>
+                        <h5 v-show="!editForm" class="modal-title" id="addNewUserForm">Add New</h5>
+                        <h5 v-show="editForm" class="modal-title" id="editUserForm">Edit User</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
 
-                    <form @submit.prevent="createUser">
+                    <form @submit.prevent="editForm ? updateUser() : createUser()">
                         <div class="modal-body">
                             <div class="form-group">
                                 <input
@@ -126,7 +127,8 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Create</button>
+                            <button v-show="!editForm" type="submit" class="btn btn-primary">Create</button>
+                            <button v-show="editForm" type="submit" class="btn btn-primary">Update</button>
                         </div>
                     </form>
                 </div>
@@ -139,6 +141,7 @@
     export default {
         data() {
             return {
+                editForm:false,
                 users: {},
                 form: new Form({
                     name: '',
@@ -151,8 +154,19 @@
             }
         },
         methods: {
+            newModal(){
+              this.editForm = false;
+              this.form.reset();
+              $('#addNew').modal('show');
+            },
+            editModal(user){
+              this.editForm = true;
+              this.form.reset();
+              $('#addNew').modal('show');
+              this.form.fill(user);
+            },
             loadUsers() {
-                // data trả về gán, ({data}) => (this.users = data) tương đương với (param) => (this.users = param.data)
+                // data trả về gán, ({data}) => (this.users = data) tương đương với (param) => (this.users = param.data),  {data} là short hand của {data:data}, dấu => nó là return
                 axios.get("api/user").then(( {data} ) => (this.users = data.data));
             },
             createUser() {
@@ -184,6 +198,9 @@
                   //console.log(errors);
                 });      
                     
+            },
+            updateUser(id){
+              console.log('editting');
             },
             deleteUser(id){
               swal.fire({
