@@ -182,7 +182,7 @@
                 this.$Progress.start();
                 this.form.post('api/user')
                 .then(()=>{
-                // sau khi post lên server thì gửi thông báo đến hook created 
+                // sau khi post lên server thì gửi thông báo đến hook created
                 // để phát hiện thay đổi trên server
                 EventBus.$emit('AfterCreatedUser');
                 toast.fire({
@@ -197,8 +197,8 @@
                 .catch( ()=>{
                   this.$Progress.fail();
                   //console.log(errors);
-                });      
-                    
+                });
+
             },
             updateUser(id){
               this.$Progress.start();
@@ -248,7 +248,7 @@
                     )
                   })
                 }
-                
+
               })
             }
         },
