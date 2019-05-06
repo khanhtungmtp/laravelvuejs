@@ -2260,6 +2260,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -61449,7 +61450,7 @@ var render = function() {
                             class: {
                               "is-invalid": _vm.form.errors.has("type")
                             },
-                            attrs: { name: "type" },
+                            attrs: { name: "type", id: "type" },
                             on: {
                               change: function($event) {
                                 var $$selectedVal = Array.prototype.filter
@@ -61471,9 +61472,7 @@ var render = function() {
                             }
                           },
                           [
-                            _c("option", { attrs: { value: "" } }, [
-                              _vm._v("Select user role")
-                            ]),
+                            _c("option", [_vm._v("Select user role")]),
                             _vm._v(" "),
                             _c("option", { attrs: { value: "admin" } }, [
                               _vm._v("Admin")

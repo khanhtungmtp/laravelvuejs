@@ -114,10 +114,11 @@
                                 <select
                                         v-model="form.type"
                                         name="type"
+                                        id="type"
                                         class="form-control"
                                         :class="{ 'is-invalid': form.errors.has('type') }"
                                 >
-                                    <option value="">Select user role</option>
+                                    <option >Select user role</option>
                                     <option value="admin">Admin</option>
                                     <option value="user">Standard user</option>
                                     <option value="author">Author</option>
