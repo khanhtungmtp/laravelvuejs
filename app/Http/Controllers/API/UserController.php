@@ -143,6 +143,7 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
+        $this->authorize('isAdmin');
         // tìm id và xóa user
         $user = User::findOrfail($id);
         $user->delete();

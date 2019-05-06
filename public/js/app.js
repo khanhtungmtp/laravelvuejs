@@ -2363,7 +2363,7 @@ __webpack_require__.r(__webpack_exports__);
 
             EventBus.$emit('AfterCreatedUser');
           })["catch"](function () {
-            swal('Failed!', 'There are something wrong.', 'Warning');
+            swal.fire('Failed!', 'There are something wrong.', 'Warning');
           });
         }
       });

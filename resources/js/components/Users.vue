@@ -242,7 +242,7 @@
                       EventBus.$emit('AfterCreatedUser');
                   })
                   .catch(()=>{
-                    swal(
+                    swal.fire(
                       'Failed!',
                       'There are something wrong.',
                       'Warning'
