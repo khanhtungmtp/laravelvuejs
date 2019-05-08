@@ -50,6 +50,10 @@
             </div>
         </div>
 
+        <div v-if="!$gate.isAdmin()">
+            <not-found></not-found>
+        </div>
+
         <!-- Modal -->
         <div class="modal fade" id="addNew" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
              aria-hidden="true">
