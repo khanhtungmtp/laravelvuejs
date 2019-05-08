@@ -11,6 +11,11 @@ window.Vue = require('vue');
 
 // thư viện thời gian
 import moment from 'moment';
+// class gate.js
+import gate from './gate';
+// gate( bên class gate có contructor), $gate là tên của prototype đặt gì cũng được
+Vue.prototype.$gate = new gate(window.user);
+
 // thư viện vform cho vuejs đẹp
 import { Form, HasError, AlertError } from 'vform';
 window.Form = Form;

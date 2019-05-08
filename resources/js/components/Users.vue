@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <div class="row mt-5">
+        <div class="row mt-5" v-if="$gate.isAdmin()">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
@@ -168,8 +168,11 @@
               this.form.fill(user);
             },
             loadUsers() {
-                // data trả về gán, ({data}) => (this.users = data) tương đương với (param) => (this.users = param.data),  {data} là short hand của {data:data}, dấu => nó là return
-                axios.get("api/user").then(( {data} ) => (this.users = data.data));
+            //    ACL , tk là admin thì mới request tới db
+                if (this.$gate.isAdmin()){
+                    // data trả về gán, ({data}) => (this.users = data) tương đương với (param) => (this.users = param.data),  {data} là short hand của {data:data}, dấu => nó là return
+                    axios.get("api/user").then(( {data} ) => (this.users = data.data));
+                }
             },
             createUser() {
                 // route api resource default
