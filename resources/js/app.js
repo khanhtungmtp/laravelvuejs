@@ -23,6 +23,9 @@ window.Form = Form;
 Vue.component(HasError.name, HasError);
 Vue.component(AlertError.name, AlertError);
 
+// sử dụng thư viện laravel vue pagination
+Vue.component('pagination', require('laravel-vue-pagination'));
+
 import VueRouter from 'vue-router'
 // thư viện thanh trạng thái
 import VueProgressBar from 'vue-progressbar'

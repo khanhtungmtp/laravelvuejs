@@ -24,7 +24,7 @@
                                 <th>Modify</th>
 
                             </tr>
-                            <tr v-for="user in users" :key="user.id">
+                            <tr v-for="user in users.data" :key="user.id">
                                 <td>{{ user.id }}</td>
                                 <td>{{ user.name }}</td>
                                 <td>{{ user.email }}</td>
@@ -45,6 +45,7 @@
                         </table>
                     </div>
                     <!-- /.card-body -->
+                    <pagination :data="users" @pagination-change-page="getResults"></pagination>
                 </div>
                 <!-- /.card -->
             </div>
@@ -160,6 +161,13 @@
             }
         },
         methods: {
+            getResults(page = 1) {
+                axios.get('api/user?page=' + page)
+                    .then(response => {
+                        this.users = response.data;
+                    });
+            }
+            ,
             newModal(){
               this.editForm = false;
               this.form.reset();
@@ -175,7 +183,7 @@
             //    ACL , tk là admin thì mới request tới db
                 if (this.$gate.isAdminOrAuthor()){
                     // data trả về gán, ({data}) => (this.users = data) tương đương với (param) => (this.users = param.data),  {data} là short hand của {data:data}, dấu => nó là return
-                    axios.get("api/user").then(( {data} ) => (this.users = data.data));
+                    axios.get("api/user").then(( {data} ) => (this.users = data));
                 }
             },
             createUser() {

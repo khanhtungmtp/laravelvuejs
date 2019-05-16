@@ -30,7 +30,7 @@ class UserController extends Controller
         if (Gate::allows('isAdmin') || Gate::allows('isAuthor'))
         {
             // get user giá trị về
-            return User::latest()->paginate(10);
+            return User::latest()->paginate(1);
         }
     }
 
