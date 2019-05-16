@@ -80762,6 +80762,9 @@ var routes = [{
 }, {
   path: '/users',
   component: __webpack_require__(/*! ./components/Users.vue */ "./resources/js/components/Users.vue")["default"]
+}, {
+  path: '*',
+  component: __webpack_require__(/*! ./components/NotFound.vue */ "./resources/js/components/NotFound.vue")["default"]
 }]; // tạo xe bus phát hiện thay đổi all user trong database
 
 window.EventBus = new Vue();
