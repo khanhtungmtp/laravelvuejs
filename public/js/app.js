@@ -2323,7 +2323,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       //    ACL , tk là admin thì mới request tới db
-      if (this.$gate.isAdmin()) {
+      if (this.$gate.isAdminOrAuthor()) {
         // data trả về gán, ({data}) => (this.users = data) tương đương với (param) => (this.users = param.data),  {data} là short hand của {data:data}, dấu => nó là return
         axios.get("api/user").then(function (_ref) {
           var data = _ref.data;
@@ -62901,7 +62901,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
-    _vm.$gate.isAdmin()
+    _vm.$gate.isAdminOrAuthor()
       ? _c("div", { staticClass: "row mt-5" }, [
           _c("div", { staticClass: "col-md-12" }, [
             _c("div", { staticClass: "card" }, [
@@ -62989,7 +62989,7 @@ var render = function() {
         ])
       : _vm._e(),
     _vm._v(" "),
-    !_vm.$gate.isAdmin() ? _c("div", [_c("not-found")], 1) : _vm._e(),
+    !_vm.$gate.isAdminOrAuthor() ? _c("div", [_c("not-found")], 1) : _vm._e(),
     _vm._v(" "),
     _c(
       "div",
@@ -80195,6 +80195,13 @@ function () {
     key: "isAuthor",
     value: function isAuthor() {
       return this.user.type === 'author';
+    }
+  }, {
+    key: "isAdminOrAuthor",
+    value: function isAdminOrAuthor() {
+      if (this.user.type === 'admin' || this.user.type === 'author') {
+        return true;
+      }
     }
   }]);
 

@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <div class="row mt-5" v-if="$gate.isAdmin()">
+        <div class="row mt-5" v-if="$gate.isAdminOrAuthor()">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
@@ -50,7 +50,7 @@
             </div>
         </div>
 
-        <div v-if="!$gate.isAdmin()">
+        <div v-if="!$gate.isAdminOrAuthor()">
             <not-found></not-found>
         </div>
 
@@ -173,7 +173,7 @@
             },
             loadUsers() {
             //    ACL , tk là admin thì mới request tới db
-                if (this.$gate.isAdmin()){
+                if (this.$gate.isAdminOrAuthor()){
                     // data trả về gán, ({data}) => (this.users = data) tương đương với (param) => (this.users = param.data),  {data} là short hand của {data:data}, dấu => nó là return
                     axios.get("api/user").then(( {data} ) => (this.users = data.data));
                 }

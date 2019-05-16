@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -26,8 +27,11 @@ class UserController extends Controller
      */
     public function index()
     {
-        // get user giá trị về
-        return User::latest()->paginate(10);
+        if (Gate::allows('isAdmin') || Gate::allows('isAuthor'))
+        {
+            // get user giá trị về
+            return User::latest()->paginate(10);
+        }
     }
 
     public function profile()
@@ -143,10 +147,14 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $this->authorize('isAdmin');
-        // tìm id và xóa user
-        $user = User::findOrfail($id);
-        $user->delete();
-        return ['message' => 'User deleted'];
+        // $this->authorize('isAdmin');
+        // phân quyền cách 2 dùng gate của laravel
+        if (Gate::allows('isAdmin'))
+        {
+            // tìm id và xóa user
+            $user = User::findOrfail($id);
+            $user->delete();
+            return ['message' => 'User deleted'];
+        }
     }
 }
