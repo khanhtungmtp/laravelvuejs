@@ -2309,6 +2309,7 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    // phân trang
     getResults: function getResults() {
       var _this = this;
 
@@ -2415,6 +2416,13 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this6 = this;
 
+    // nhận thông báo eventbus
+    EventBus.$on('searching', function () {
+      var query = _this6.$parent.search;
+      axios.get('api/searching?q=' + query).then(function (data) {
+        _this6.users = data.data;
+      })["catch"](function () {});
+    });
     this.loadUsers(); // nhận thông báo thay đổi dữ liệu từ methods createUser
 
     EventBus.$on('AfterCreatedUser', function () {
@@ -80796,7 +80804,16 @@ Vue.component('example-component', __webpack_require__(/*! ./components/ExampleC
 
 var app = new Vue({
   el: '#app',
-  router: router
+  router: router,
+  data: {
+    search: ''
+  },
+  methods: {
+    searchit: function searchit() {
+      // phát thông báo cho user.vue biết đang search
+      EventBus.$emit('searching');
+    }
+  }
 });
 
 /***/ }),

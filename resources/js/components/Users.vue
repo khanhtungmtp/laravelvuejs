@@ -161,6 +161,7 @@
             }
         },
         methods: {
+            // phân trang
             getResults(page = 1) {
                 axios.get('api/user?page=' + page)
                     .then(response => {
@@ -270,7 +271,16 @@
         },
         // hook
         created() {
-
+            // nhận thông báo eventbus
+            EventBus.$on('searching',() =>{
+                let query = this.$parent.search;
+                axios.get('api/searching?q='+query)
+                .then((data) =>{
+                    this.users = data.data;
+                  
+                })
+                .catch(()=>{})
+            });
             this.loadUsers();
             // nhận thông báo thay đổi dữ liệu từ methods createUser
             EventBus.$on('AfterCreatedUser',()=>{

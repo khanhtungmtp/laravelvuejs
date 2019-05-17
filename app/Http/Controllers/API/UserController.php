@@ -80,6 +80,17 @@ class UserController extends Controller
 
     }
 
+    public function search(Request $request)
+    {
+        // search theo tên hoặc email
+        if ($search = $request->get('q')) {
+            $users = User::where(function($query) use ($search){
+                $query->where('name','LIKE',"%$search%")
+                      ->orWhere('email','LIKE',"%$search%");
+            })->paginate(20);
+        }
+        return $users;
+    }
 
     /**
      * Store a newly created resource in storage.
