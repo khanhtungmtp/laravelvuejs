@@ -228,12 +228,13 @@
                     return false;
                 }
 
-
             }
         },
         created() {
             axios.get("api/profile")
-                .then(({data}) => (this.form.fill(data)));
+                .then(({data}) => (this.form.fill(data))).catch((error)=>{
+                    console.log(error)
+                });
         }
     }
 </script>
